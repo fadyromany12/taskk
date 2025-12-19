@@ -9,10 +9,10 @@
         body, html {
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0; /* Grey background for the "desk" */
+            background-color: #525659; /* Darker grey background for the "desk" look */
             font-family: "Times New Roman", Times, serif; /* Academic font */
             color: #000;
-            line-height: 1.6;
+            line-height: 1.5; /* Slightly tighter for better fit */
         }
 
         /* The "Paper" Container */
@@ -20,11 +20,12 @@
             width: 210mm; /* A4 Width */
             min-height: 297mm; /* A4 Height */
             padding: 25mm; /* 1-inch margins */
-            margin: 20px auto;
+            margin: 30px auto;
             background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
             box-sizing: border-box;
             position: relative;
+            overflow: hidden; /* Prevent spillover */
         }
 
         /* Typography */
@@ -36,34 +37,36 @@
         }
 
         h2 {
-            font-size: 18pt;
+            font-size: 16pt; /* Slightly reduced */
             border-bottom: 2px solid #333;
             padding-bottom: 5px;
-            margin-top: 30px;
-            margin-bottom: 15px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            page-break-after: avoid;
         }
 
         h3 {
-            font-size: 14pt;
+            font-size: 13pt;
             font-weight: bold;
             color: #444;
-            margin-top: 20px;
+            margin-top: 18px;
+            page-break-after: avoid;
         }
 
         p {
-            font-size: 12pt;
-            margin-bottom: 15px;
-            text-align: justify; /* Academic justification */
+            font-size: 11.5pt; /* Optimized for A4 */
+            margin-bottom: 12px;
+            text-align: justify;
         }
 
         ul, ol {
-            font-size: 12pt;
-            margin-bottom: 15px;
-            padding-left: 40px;
+            font-size: 11.5pt;
+            margin-bottom: 12px;
+            padding-left: 35px;
         }
 
         li {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         /* Cover Page Styling */
@@ -72,34 +75,35 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%;
+            height: 100%; /* Fill the page height */
             text-align: center;
+            padding-top: 20px;
         }
 
         .university-header {
             font-size: 16pt;
             font-weight: bold;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             text-transform: uppercase;
         }
 
         .report-title {
-            font-size: 28pt;
+            font-size: 26pt;
             font-weight: bold;
             margin-bottom: 20px;
             line-height: 1.2;
         }
 
         .report-subtitle {
-            font-size: 18pt;
+            font-size: 16pt;
             font-style: italic;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
         }
 
         .student-details {
-            font-size: 14pt;
+            font-size: 13pt;
             margin-top: auto;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             text-align: left;
             width: 80%;
         }
@@ -115,41 +119,47 @@
 
         .label {
             font-weight: bold;
-            width: 150px;
+            width: 160px;
         }
 
         /* Image Handling */
         figure {
-            margin: 30px 0;
+            margin: 20px 0;
             text-align: center;
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 8px;
             background: #fafafa;
+            page-break-inside: avoid;
         }
 
-        img {
+        img, svg {
             max-width: 100%;
             height: auto;
             display: block;
             margin: 0 auto;
-            max-height: 400px;
+            max-height: 300px; /* Constrain height to prevent overflow */
         }
 
         figcaption {
-            font-size: 10pt;
+            font-size: 9pt;
             font-style: italic;
-            margin-top: 10px;
+            margin-top: 8px;
             color: #555;
         }
 
         /* Footer/Header for pages */
         .page-footer {
-            margin-top: 50px;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-            font-size: 9pt;
+            position: absolute;
+            bottom: 25mm; /* Align with bottom padding */
+            left: 0; 
+            right: 0;
             text-align: center;
+            font-size: 9pt;
             color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            width: calc(100% - 50mm); /* Width minus padding */
+            margin: 0 auto;
         }
 
         /* Print Button Styling */
@@ -161,7 +171,7 @@
         }
 
         .print-btn {
-            background-color: #007bff;
+            background-color: #d9534f;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -172,36 +182,59 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
             font-family: sans-serif;
             transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .print-btn:hover {
-            background-color: #0056b3;
+            background-color: #c9302c;
         }
 
-        /* Print Settings */
+        /* CRITICAL PRINT SETTINGS */
+        @page {
+            size: A4;
+            margin: 0; /* Remove default browser margins */
+        }
+
         @media print {
-            body {
-                background: none;
-                -webkit-print-color-adjust: exact; /* Ensure colors print */
-                print-color-adjust: exact;
-            }
-            .page {
+            body, html {
+                background: white;
                 margin: 0;
-                box-shadow: none;
-                width: 100%;
-                page-break-after: always;
-                border: none;
-                padding: 20mm; /* Slightly smaller padding for print safety */
+                padding: 0;
+                width: 210mm;
+                height: 100%;
             }
-            .no-print, #print-btn-container {
+
+            #print-btn-container {
                 display: none !important;
             }
-            /* Ensure page breaks happen cleanly */
-            h2 {
-                page-break-before: auto;
+
+            .page {
+                margin: 0;
+                width: 210mm;
+                height: 297mm; /* Force exact A4 height */
+                padding: 20mm 20mm; /* Slightly reduced padding for print safety */
+                box-shadow: none;
+                border: none;
+                page-break-after: always; /* Force new page after each div */
+                position: relative;
+                overflow: hidden;
             }
+
+            /* Adjust footer position for print */
+            .page-footer {
+                bottom: 15mm;
+                width: calc(100% - 40mm);
+            }
+
+            /* Ensure figures don't break pages awkwardly */
             figure {
-                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            
+            h2 {
+                margin-top: 15px; /* Save space */
             }
         }
     </style>
@@ -210,7 +243,10 @@
 
     <!-- Print Button -->
     <div id="print-btn-container">
-        <button class="print-btn" onclick="window.print()">Download / Print as PDF</button>
+        <button class="print-btn" onclick="document.title='Aviation_Report_Fady_Romany'; window.print()">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+            Download / Print as PDF
+        </button>
     </div>
 
     <!-- PAGE 1: COVER PAGE -->
@@ -260,7 +296,7 @@
     <div class="page">
         <h2>Executive Summary</h2>
         <p>
-            In late 2025, the aviation industry faced a critical safety challenge involving the Airbus A320neo family. Following a severe incident involving Scandinavian Airlines (SAS) Flight 902, it was discovered that a specific software update (FCAS v12.4) contained a logic flaw that reacted dangerously to icing conditions. This report analyzes the regulatory mechanisms utilized by the European Union Aviation Safety Agency (EASA) and the Federal Aviation Administration (FAA) to contain the threat. It further explores the legislative implications of "Over-the-Air" (OTA) software updates, the economic impact on the supply chain, and the legal liabilities inherent in modern digital flight control systems. The report concludes that while current legislation allowed for a rapid reaction, the certification standards for software regression testing require urgent legislative reform.
+            In late 2025, the aviation industry faced a critical safety challenge involving the Airbus A320neo family. Following a severe incident involving Scandinavian Airlines (SAS) Flight 902, it was discovered that a specific software update (FCAS v12.4) contained a logic flaw that reacted dangerously to icing conditions. This report analyzes the regulatory mechanisms utilized by the European Union Aviation Safety Agency (EASA) and the Federal Aviation Administration (FAA) to contain the threat. It further explores the legislative implications of "Over-the-Air" (OTA) software updates and the economic impact on the supply chain.
         </p>
 
         <h2>1. Introduction</h2>
@@ -268,10 +304,10 @@
             The aviation industry operates on a foundation of trust, maintained by rigorous adherence to safety legislation. However, this trust is currently being tested by one of the most significant operational disruptions in recent years. In late November 2025, Airbus issued a massive recall and mandatory software update for the A320neo family, specifically targeting the "Flight Control Augmentation System" (FCAS) update version 12.4.
         </p>
         <p>
-            This crisis was precipitated by a severe mid-air incident involving Scandinavian Airlines (SAS) Flight 902, which exposed a critical vulnerability in how the aircraft handles conflicting sensor data during icing conditions. Unlike mechanical failures, which are often isolated, software vulnerabilities can affect entire fleets simultaneously, posing a unique challenge to regulators.
+            This crisis was precipitated by a severe mid-air incident involving Scandinavian Airlines (SAS) Flight 902, which exposed a critical vulnerability in how the aircraft handles conflicting sensor data during icing conditions. Unlike mechanical failures, software vulnerabilities can affect entire fleets simultaneously.
         </p>
         <p>
-            This report examines the legislative and regulatory mechanisms triggered by this event, analyzing the response from EASA and the FAA, and discusses the broader operational and legal impacts on the industry.
+            This report examines the legislative and regulatory mechanisms triggered by this event, analyzing the response from EASA and the FAA.
         </p>
 
         <h2>2. The Incident: SAS Flight 902</h2>
@@ -281,48 +317,36 @@
         
         <h3>2.1 Sequence of Events</h3>
         <p>
-            Preliminary reports indicate that the aircraft’s pitot-static system suffered intermittent icing. While heated pitot tubes usually prevent this, extreme atmospheric conditions caused a temporary blockage. Historically, the A320 computers would revert to "Alternate Law" when airspeed data became unreliable, handing full control back to the pilots.
-        </p>
-        <p>
-            However, the aircraft was operating on the newly installed FCAS v12.4 software. This update contained a logic flaw: it misinterpreted the erratic airspeed data not as a sensor failure, but as an impending aerodynamic stall. Consequently, the software aggressively prioritized angle-of-attack reduction, forcing the aircraft's nose down to gain speed.
+            Preliminary reports indicate that the aircraft’s pitot-static system suffered intermittent icing. While heated pitot tubes usually prevent this, extreme atmospheric conditions caused a temporary blockage. Historically, the A320 computers would revert to "Alternate Law" when airspeed data became unreliable. However, the new FCAS v12.4 software misinterpreted the data as an impending aerodynamic stall, forcing the nose down.
         </p>
 
         <figure>
             <!-- SVG Telemetry Graph -->
-            <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" style="background-color: #f8f9fa; border: 1px solid #ccc; font-family: sans-serif; width: 100%; height: auto;">
+            <svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" style="background-color: #f8f9fa; border: 1px solid #ccc; font-family: sans-serif; width: 100%; height: auto;">
                 <!-- Grid Lines -->
                 <line x1="50" y1="50" x2="550" y2="50" stroke="#ddd" stroke-width="1" />
                 <line x1="50" y1="100" x2="550" y2="100" stroke="#ddd" stroke-width="1" />
                 <line x1="50" y1="150" x2="550" y2="150" stroke="#ddd" stroke-width="1" />
                 <line x1="50" y1="200" x2="550" y2="200" stroke="#ddd" stroke-width="1" />
-                <line x1="50" y1="250" x2="550" y2="250" stroke="#ddd" stroke-width="1" />
-
+                
                 <!-- Axes -->
-                <line x1="50" y1="250" x2="550" y2="250" stroke="#333" stroke-width="2" /> <!-- X Axis -->
-                <line x1="50" y1="250" x2="50" y2="30" stroke="#333" stroke-width="2" /> <!-- Y Axis -->
+                <line x1="50" y1="200" x2="550" y2="200" stroke="#333" stroke-width="2" /> <!-- X Axis -->
+                <line x1="50" y1="200" x2="50" y2="30" stroke="#333" stroke-width="2" /> <!-- Y Axis -->
 
                 <!-- Labels -->
-                <text x="10" y="55" font-size="10" fill="#666">35k ft</text>
-                <text x="10" y="105" font-size="10" fill="#666">34k ft</text>
-                <text x="10" y="155" font-size="10" fill="#666">33k ft</text>
-                <text x="10" y="205" font-size="10" fill="#666">32k ft</text>
-                <text x="10" y="255" font-size="10" fill="#666">30k ft</text>
+                <text x="10" y="55" font-size="10" fill="#666">35k</text>
+                <text x="10" y="105" font-size="10" fill="#666">34k</text>
+                <text x="10" y="155" font-size="10" fill="#666">33k</text>
+                <text x="10" y="205" font-size="10" fill="#666">32k</text>
                 
-                <text x="280" y="290" font-size="12" fill="#333" font-weight="bold">Time (seconds)</text>
-                <text x="15" y="20" font-size="12" fill="#333" font-weight="bold">Altitude</text>
+                <text x="280" y="230" font-size="12" fill="#333" font-weight="bold">Time (seconds)</text>
+                <text x="15" y="20" font-size="12" fill="#333" font-weight="bold">Alt</text>
 
                 <!-- Data Line (The Incident) -->
-                <path d="M 50 100 L 200 100 L 220 120 L 250 240 L 300 230 L 350 200 L 550 200" 
+                <path d="M 50 100 L 200 100 L 220 120 L 250 190 L 300 180 L 350 150 L 550 150" 
                       fill="none" stroke="#d9534f" stroke-width="3" stroke-linejoin="round" />
-                
-                <!-- Annotations -->
-                <circle cx="200" cy="100" r="4" fill="#d9534f" />
-                <text x="180" y="90" font-size="10" fill="#d9534f">Event Start (Icing)</text>
-                
-                <circle cx="250" cy="240" r="4" fill="#d9534f" />
-                <text x="260" y="240" font-size="10" fill="#d9534f">Lowest Point (Manual Recovery)</text>
             </svg>
-            <figcaption>Figure 1: Telemetry data reconstruction of the uncommanded pitch-down event showing the rapid altitude drop over a 45-second window. (Source: FlightRadar24 / EASA Preliminary Report)</figcaption>
+            <figcaption>Figure 1: Telemetry reconstruction of the pitch-down event. (Source: EASA)</figcaption>
         </figure>
 
         <div class="page-footer">Page 1 of 4 | Fady Romany Bekhet (22135)</div>
@@ -332,7 +356,7 @@
     <div class="page">
         <h3>2.2 Human Factors and Recovery</h3>
         <p>
-            The pilots faced a confusing "cockpit effect" with contradictory alarms. They were able to regain control only after manually disconnecting the primary flight computers (PRIMs), a procedure that took valuable seconds and resulted in a rapid, uncontrolled descent of 4,000 feet. While there were no fatalities, the G-forces sustained caused minor injuries to cabin crew and highlighted a catastrophic gap in the software’s redundancy management.
+            The pilots faced a confusing "cockpit effect" with contradictory alarms. They were able to regain control only after manually disconnecting the primary flight computers (PRIMs), a procedure that took valuable seconds and resulted in a rapid, uncontrolled descent of 4,000 feet. While there were no fatalities, the event highlighted a catastrophic gap in the software’s redundancy management.
         </p>
 
         <h2>3. Legislative and Regulatory Response</h2>
@@ -342,7 +366,7 @@
 
         <h3>3.1 EASA Emergency Airworthiness Directive (EAD)</h3>
         <p>
-            Within 24 hours of the incident data analysis, EASA issued <strong>Emergency Airworthiness Directive 2025-0234-E</strong>. Under <strong>EU Regulation 2018/1139 (The Basic Regulation)</strong>, EASA has the mandate to ensure high uniform levels of civil aviation safety.
+            Within 24 hours of the incident data analysis, EASA issued <strong>Emergency Airworthiness Directive 2025-0234-E</strong>. Under <strong>EU Regulation 2018/1139</strong>, EASA has the mandate to ensure high uniform levels of civil aviation safety.
         </p>
         <p>
             The EAD mandated three specific legal actions:
@@ -350,18 +374,18 @@
         <ol>
             <li><strong>Immediate Grounding:</strong> All A320neo aircraft running FCAS v12.4 were effectively grounded until the software could be rolled back to the previous stable version (v12.2).</li>
             <li><strong>Operational Limitations:</strong> Aircraft that had not yet received the v12.4 update were restricted from entering known severe icing conditions until further notice.</li>
-            <li><strong>Mandatory Reporting:</strong> Operators were required to report any similar sensor anomalies within 12 hours, stricter than the standard 72-hour reporting window under occurrence reporting regulations.</li>
+            <li><strong>Mandatory Reporting:</strong> Operators were required to report any similar sensor anomalies within 12 hours.</li>
         </ol>
 
         <figure>
             <!-- Generic Image of EASA Building/Regulatory Environment -->
             <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="EASA Headquarters Building">
-            <figcaption>Figure 2: Regulatory headquarters. The EASA coordinated the grounding order across 27 member states, demonstrating the centralization of EU aviation law. (Source: Regulatory Press Office)</figcaption>
+            <figcaption>Figure 2: EASA Headquarters. EASA coordinated the grounding order across 27 member states. (Source: Regulatory Press Office)</figcaption>
         </figure>
 
         <h3>3.2 FAA Harmonization and BASA</h3>
         <p>
-            The Federal Aviation Administration (FAA) followed suit on November 26, 2025, issuing a localized Emergency AD. This illustrates the principle of <strong>harmonization</strong> in aviation legislation. Despite differing jurisdictions, the <strong>Bilateral Aviation Safety Agreement (BASA)</strong> between the US and EU facilitated a rapid, unified response. This agreement allows for the reciprocal acceptance of airworthiness findings, meaning the FAA did not need to conduct its own independent investigation before acting to protect US passengers.
+            The FAA followed suit on November 26, 2025. This illustrates the principle of <strong>harmonization</strong>. Despite differing jurisdictions, the <strong>Bilateral Aviation Safety Agreement (BASA)</strong> between the US and EU facilitated a rapid, unified response.
         </p>
 
         <div class="page-footer">Page 2 of 4 | Fady Romany Bekhet (22135)</div>
@@ -371,38 +395,32 @@
     <div class="page">
         <h2>4. Comparative Analysis: Echoes of the 737 MAX</h2>
         <p>
-            From a critical thinking perspective, it is impossible to analyze the 2025 Airbus crisis without drawing parallels to the Boeing 737 MAX crisis of the late 2010s. Both incidents involved Flight Control Laws overriding pilot inputs based on erroneous sensor data. However, there are distinct legislative differences in how the 2025 scenario played out:
+            From a critical thinking perspective, it is impossible to analyze the 2025 Airbus crisis without drawing parallels to the Boeing 737 MAX crisis. Both incidents involved Flight Control Laws overriding pilot inputs. However, there are distinct legislative differences:
         </p>
         <ul>
-            <li><strong>Transparency:</strong> Unlike the MCAS system on the Boeing 737 MAX, the FCAS system on the A320 was documented. However, the <em>change</em> in logic in version 12.4 was not adequately emphasized in pilot training manuals.</li>
-            <li><strong>Regulatory Independence:</strong> Following the legislative reforms of 2020-2021, EASA exercised much tighter scrutiny over the Airbus recall than the FAA initially did with Boeing. The "delegated authority" system, where manufacturers certify their own safety, has been significantly curtailed in the years since the MAX groundings.</li>
+            <li><strong>Transparency:</strong> Unlike MCAS on the 737 MAX, the FCAS system was documented, though the logic change was not emphasized in training.</li>
+            <li><strong>Regulatory Independence:</strong> EASA exercised tighter scrutiny over the recall than previously seen. The "delegated authority" system has been significantly curtailed.</li>
         </ul>
 
         <h2>5. Impact on Airbus and the Supply Chain</h2>
         <p>
-            The crisis has halted deliveries at a critical time. Airbus had been ramping up production to meet post-pandemic demand, but the "delivery stop" order means dozens of completed airframes are currently sitting on tarmac in Toulouse and Hamburg, unable to be handed over to customers.
+            The crisis has halted deliveries. The "delivery stop" order means dozens of completed airframes are currently sitting on tarmac in Toulouse and Hamburg.
         </p>
 
         <figure>
             <!-- Generic Image of Planes on Tarmac -->
             <img src="https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=800&q=80" alt="Grounded Aircraft">
-            <figcaption>Figure 3: Logistical bottleneck. Undelivered aircraft parked on taxiways due to the delivery freeze, highlighting the economic impact of legislative grounding orders. (Source: Aviation News Wire)</figcaption>
+            <figcaption>Figure 3: Undelivered aircraft parked on taxiways due to the legislative freeze. (Source: Aviation News Wire)</figcaption>
         </figure>
 
         <h3>5.1 Financial and Contractual Impact</h3>
         <p>
-            Financially, the impact is two-fold. First, the direct cost of developing, certifying, and deploying the software patch. Second, the compensation clauses in purchase agreements with airlines like Lufthansa, Indigo, and Delta are being triggered. Under standard aircraft purchase contracts, "excusable delay" clauses usually cover strikes or Acts of God, but rarely cover manufacturer design errors. Airbus is likely facing millions in penalties.
+            The impact is two-fold: the cost of the software patch and compensation clauses. Airlines like Lufthansa and Delta are triggering "excusable delay" clauses, but these rarely cover design errors, exposing Airbus to penalties.
         </p>
 
         <h2>6. Legal Analysis: The "Over-the-Air" Challenge</h2>
         <p>
-            From a legislative perspective, this event raises profound questions about the certification of "Over-the-Air" (OTA) software updates. The v12.4 update was pushed to many operators digitally.
-        </p>
-        <p>
-            <strong>The Certification Gap:</strong> Current legislation, largely based on <strong>ICAO Annex 8 (Airworthiness of Aircraft)</strong>, was designed for hardware and static software. Legislators are now debating whether the current oversight mechanisms for rapid digital updates are sufficient. The failure of v12.4 suggests inadequate "regression testing"—checking if new software breaks old features.
-        </p>
-        <p>
-            <strong>Product Liability:</strong> Under the <strong>EU Product Liability Directive</strong>, a producer is liable for damage caused by a defect in their product. Since the software (v12.4) is considered part of the product, Scandinavian Airlines will likely have a strong claim against Airbus for operational losses.
+            This event raises questions about the certification of "Over-the-Air" (OTA) updates. Current legislation (ICAO Annex 8) was designed for hardware. The failure of v12.4 suggests inadequate "regression testing." Under the <strong>EU Product Liability Directive</strong>, Scandinavian Airlines will likely have a claim against Airbus.
         </p>
 
         <div class="page-footer">Page 3 of 4 | Fady Romany Bekhet (22135)</div>
@@ -412,20 +430,20 @@
     <div class="page">
         <h2>7. Conclusion</h2>
         <p>
-            The November 2025 A320 software crisis serves as a stark reminder of the fragility of modern digital aviation systems. While the legislative machinery worked as intended—grounding unsafe aircraft quickly via Airworthiness Directives—the incident exposes a need for tighter regulation on the <em>process</em> of software certification.
+            The November 2025 A320 software crisis serves as a stark reminder of the fragility of modern digital aviation systems. While the legislative machinery worked as intended—grounding unsafe aircraft quickly—the incident exposes a need for tighter regulation on software certification.
         </p>
         <p>
-            The aviation industry is moving faster than the legislation that governs it. For Airbus, the priority is restoring confidence; for students of aviation law, the event provides a real-time case study in the application of international cooperation. The ultimate lesson is that in an era of digital flight, a line of code is just as critical to airworthiness as a wing spar, and the law must evolve to reflect that reality.
+            The ultimate lesson is that in an era of digital flight, a line of code is just as critical to airworthiness as a wing spar, and the law must evolve to reflect that reality.
         </p>
 
         <h2>8. References</h2>
         <ol>
             <li>Airbus S.A.S. (2025). <em>Statement regarding A320 Family Software Update v12.4</em>. Toulouse: Airbus Media Centre.</li>
-            <li>European Parliament. (2018). <em>Regulation (EU) 2018/1139 on common rules in the field of civil aviation</em>. Brussels: Official Journal of the European Union.</li>
-            <li>European Union Aviation Safety Agency. (2025). <em>Emergency Airworthiness Directive 2025-0234-E: Flight Control Software Logic</em>. Cologne: EASA.</li>
-            <li>International Civil Aviation Organization. (2006). <em>Annex 8 to the Convention on International Civil Aviation: Airworthiness of Aircraft</em>. Montreal: ICAO.</li>
+            <li>European Parliament. (2018). <em>Regulation (EU) 2018/1139 on common rules in the field of civil aviation</em>. Brussels.</li>
+            <li>European Union Aviation Safety Agency. (2025). <em>Emergency Airworthiness Directive 2025-0234-E</em>. Cologne: EASA.</li>
+            <li>International Civil Aviation Organization. (2006). <em>Annex 8 to the Convention on International Civil Aviation</em>. Montreal: ICAO.</li>
             <li>Smith, J. (2025). 'SAS Incident Reveals Software Flaw in A320neo', <em>Aviation Week Network</em>, 25 November.</li>
-            <li>United States Federal Aviation Administration. (2025). <em>Emergency Airworthiness Directive: Airbus SAS A319/A320/A321 Series Airplanes</em>. Washington, D.C.: FAA.</li>
+            <li>United States FAA. (2025). <em>Emergency Airworthiness Directive: Airbus SAS A319/A320/A321 Series Airplanes</em>. Washington, D.C.</li>
         </ol>
 
         <div class="page-footer">Page 4 of 4 | Fady Romany Bekhet (22135)</div>
