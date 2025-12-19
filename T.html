@@ -152,24 +152,66 @@
             color: #777;
         }
 
+        /* Print Button Styling */
+        #print-btn-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .print-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-family: sans-serif;
+            transition: background-color 0.2s;
+        }
+
+        .print-btn:hover {
+            background-color: #0056b3;
+        }
+
         /* Print Settings */
         @media print {
             body {
                 background: none;
+                -webkit-print-color-adjust: exact; /* Ensure colors print */
+                print-color-adjust: exact;
             }
             .page {
                 margin: 0;
                 box-shadow: none;
                 width: 100%;
                 page-break-after: always;
+                border: none;
+                padding: 20mm; /* Slightly smaller padding for print safety */
             }
-            .no-print {
-                display: none;
+            .no-print, #print-btn-container {
+                display: none !important;
+            }
+            /* Ensure page breaks happen cleanly */
+            h2 {
+                page-break-before: auto;
+            }
+            figure {
+                page-break-inside: avoid;
             }
         }
     </style>
 </head>
 <body>
+
+    <!-- Print Button -->
+    <div id="print-btn-container">
+        <button class="print-btn" onclick="window.print()">Download / Print as PDF</button>
+    </div>
 
     <!-- PAGE 1: COVER PAGE -->
     <div class="page">
