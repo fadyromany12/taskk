@@ -12,7 +12,7 @@
             background-color: #525659; /* Darker grey background for the "desk" look */
             font-family: "Times New Roman", Times, serif; /* Academic font */
             color: #000;
-            line-height: 1.5; /* Slightly tighter for better fit */
+            line-height: 1.5;
         }
 
         /* The "Paper" Container */
@@ -25,7 +25,7 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             box-sizing: border-box;
             position: relative;
-            overflow: hidden; /* Prevent spillover */
+            overflow: hidden;
         }
 
         /* Typography */
@@ -37,12 +37,13 @@
         }
 
         h2 {
-            font-size: 16pt; /* Slightly reduced */
+            font-size: 16pt;
             border-bottom: 2px solid #333;
             padding-bottom: 5px;
             margin-top: 25px;
             margin-bottom: 12px;
             page-break-after: avoid;
+            break-after: avoid;
         }
 
         h3 {
@@ -51,12 +52,15 @@
             color: #444;
             margin-top: 18px;
             page-break-after: avoid;
+            break-after: avoid;
         }
 
         p {
-            font-size: 11.5pt; /* Optimized for A4 */
+            font-size: 11.5pt;
             margin-bottom: 12px;
             text-align: justify;
+            orphans: 3; /* Keep at least 3 lines at bottom of page */
+            widows: 3; /* Keep at least 3 lines at top of page */
         }
 
         ul, ol {
@@ -75,7 +79,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%; /* Fill the page height */
+            height: 100%;
             text-align: center;
             padding-top: 20px;
         }
@@ -129,7 +133,8 @@
             border: 1px solid #ddd;
             padding: 8px;
             background: #fafafa;
-            page-break-inside: avoid;
+            page-break-inside: avoid; /* CRITICAL: Prevents figure from splitting */
+            break-inside: avoid;
         }
 
         img, svg {
@@ -137,7 +142,9 @@
             height: auto;
             display: block;
             margin: 0 auto;
-            max-height: 300px; /* Constrain height to prevent overflow */
+            max-height: 300px;
+            page-break-inside: avoid; /* CRITICAL: Prevents image from splitting */
+            break-inside: avoid;
         }
 
         figcaption {
@@ -150,7 +157,7 @@
         /* Footer/Header for pages */
         .page-footer {
             position: absolute;
-            bottom: 25mm; /* Align with bottom padding */
+            bottom: 25mm;
             left: 0; 
             right: 0;
             text-align: center;
@@ -158,7 +165,7 @@
             color: #777;
             border-top: 1px solid #eee;
             padding-top: 10px;
-            width: calc(100% - 50mm); /* Width minus padding */
+            width: calc(100% - 50mm);
             margin: 0 auto;
         }
 
@@ -194,7 +201,7 @@
         /* CRITICAL PRINT SETTINGS */
         @page {
             size: A4;
-            margin: 0; /* Remove default browser margins */
+            margin: 0; /* Browser handles margins via body/div padding */
         }
 
         @media print {
@@ -213,29 +220,37 @@
             .page {
                 margin: 0;
                 width: 210mm;
-                height: 297mm; /* Force exact A4 height */
-                padding: 20mm 20mm; /* Slightly reduced padding for print safety */
+                height: 297mm; /* Exact A4 Height */
+                padding: 15mm 20mm; /* REDUCED PADDING to fit more content safely */
                 box-shadow: none;
                 border: none;
-                page-break-after: always; /* Force new page after each div */
+                page-break-after: always; /* Force new sheet */
+                break-after: page;
                 position: relative;
-                overflow: hidden;
+                overflow: hidden; /* Hide anything that somehow spills */
+            }
+            
+            /* Prevent last page from generating an empty sheet */
+            .page:last-child {
+                page-break-after: auto;
+                break-after: auto;
             }
 
             /* Adjust footer position for print */
             .page-footer {
-                bottom: 15mm;
+                bottom: 12mm; /* Lower the footer slightly */
                 width: calc(100% - 40mm);
             }
 
-            /* Ensure figures don't break pages awkwardly */
-            figure {
-                break-inside: avoid;
+            /* Ensure figures don't break pages */
+            figure, img, svg, h2, h3, .student-details {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             
-            h2 {
-                margin-top: 15px; /* Save space */
-            }
+            /* Tighten up spacing slightly for print */
+            h2 { margin-top: 15px; margin-bottom: 10px; }
+            figure { margin: 15px 0; }
         }
     </style>
 </head>
